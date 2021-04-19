@@ -12,7 +12,7 @@ import random
 import os
 from os import path
 from random import uniform, choice, randint
-client = BotAmino("saritonsadeevic@gmail.com", "70203120shariton130207-02") #Type email and password/Введите пароль и почту сюда
+client = BotAmino("email", "password") #Type email and password/Введите пароль и почту сюда
 vers = "1.1.4"
 print(f"Bot Version = {vers}")
 
