@@ -1,0 +1,212 @@
+#Bot Amino Pepe version 2.0.2 by Шейд/Langa
+# -*- coding: utf8 -*-
+from BotAmino import *
+from fancy_text import fancy
+import sys
+import emoji
+import urllib.request
+import time
+from pathlib import Path
+from google_trans_new import google_translator
+import random
+import os
+from os import path
+from random import uniform, choice, randint
+client = BotAmino("saritonsadeevic@gmail.com", "70203120shariton130207-02") #Type email and password/Введите пароль и почту сюда
+vers = "1.1.4"
+print(f"Bot Version = {vers}")
+
+@client.command("shariton")
+def shariton(data):
+    data.subClient.send_message(data.chatId, message="""
+[C]Я бот Шаритон! My Commands/Мои Команды
+[C]!shariton [Информация о боте!]
+[C]!погладить Шаритона [Пользователь] - мурлыкает.
+[C]!рандомные эмодзи - Команда чтобы бот кинул 5 рандомных стикеров.
+[C]!дай печенье - Команда чтобы бот дал вам печенье.
+[C]!google [Текст] - Команда чтобы поискать что-то в гугле.
+[C]!вопрос [Текст] - Команда чтобы задать вопрос боту.
+[C]!чат информация - Команда чтобы получить chatId чата от бота.
+[C]!подписаться - Команда чтобы бот подписался на вас.
+[C]!задний фон - Команда чтобы получить фон чата.
+[C]!перевод [Текст] - Команда чтобы перевести что то на английский.
+[C]!перезагрузка - Команда чтобы перезапустить бота.
+[C]!комментарий - Команда чтобы получить роспись от бота.
+[C]!текст - Команда чтобы написать от имени бота.
+[C]Бот сделан - http://aminoapps.com/p/d9w9fi8
+""")
+
+@client.on_member_join_chat()
+def privet(data):
+    data.subClient.send_message(data.chatId, f"Добро Пожаловать в чат {data.author} я бот мои команды !Шаритон)")
+
+
+@client.on_member_leave_chat(["chatId"]) # the chatId is not necessary, put one if you want a specified chat only
+def poka(data):
+    data.subClient.send_message(data.chatId, f"К сожалению {data.author} покинул чат! Пожелаем ему удачи!")
+
+################################################commands/команды################################################
+@client.command("google")
+def google(data):
+    msg = data.message.split(" ")
+    msg = '+'.join(msg)
+    data.subClient.send_message(chatId=data.chatId, message=f"https://www.google.com/search?q={msg}")
+
+@client.command("погладить Шаритона")
+def snus(data):
+	msg = data.message + " null "
+	msg = msg.split(" ")
+	msg[1] = msg[0]
+	try:
+		data.subClient.send_message(chatId=data.chatId, message=f"{msg[1]} ×мурлыкает×")
+	except:
+		pass
+#command author github.com/BrenoMartinsDeOliveiraVasconcelos
+#Команда для вопросов для бота
+@client.command("вопрос")
+def вопрос(data):
+	lis = ['Возможно', 'Да', 'Нет', 'Конечно', 'Наверное']
+	msg = data.message + "null?"
+	msg = data.message.split(" ")
+	data.subClient.send_message(chatId=data.chatId, message=str(random.choice(lis)))
+
+@client.command("дай печенье")
+def sperm(data):
+	msg = data.message + " null "
+	msg = msg.split(" ")
+	msg[2] = msg[1]
+	msg[1] = msg[0]
+	try:
+		data.subClient.send_message(chatId=data.chatId, message=f"{msg[1]} ×дал печенье×")
+	except:
+		pass
+#Команда чтобы бот заходил во все активные чаты
+@client.command("подписаться")
+def follow(data):
+	try:
+		data.subClient.send_message(data.chatId, f'Подписались на {data.author}')
+		data.subClient.follow_user(data.authorId)
+	except:
+		data.subClient.send_message(data.chatId, f'Не удалось подписаться на {data.author}')
+		pass
+
+@client.command("чат информация")
+def chatinfo(data):
+	data.subClient.send_message(data.chatId, f"chatId = {data.chatId}")
+
+@client.command("задний фон")
+def backgr(data):
+        image = data.subClient.get_chat_thread(chatId=data.chatId).backgroundImage
+        if image:
+            filename = path.basename(image)
+            urllib.request.urlretrieve(image, filename)
+            with open(filename, 'rb') as fp: data.subClient.send_message(data.chatId, file=fp, fileType="image")
+            os.remove(filename)
+
+@client.command("перевод")
+def translate(data):
+    translator = google_translator()
+    translate_text = translator.translate(data.message)
+    data.subClient.send_message(data.chatId, f"Перевод: {translate_text}")
+
+@client.command("рандомные эмодзи")
+def randemoji(data):
+	lis = ['😰😨😱😓🤯', '😎🤡🥴🤕🌚', '🌝🥸👻🎃', '😺🥺💗🔥💓', '😛😉😊😘🥳', '🤣😀😆🥰🙂', '☺️😑🙃😶🤗', '🤩😋😔😌☺️', '🤫🤐🥺🙄🤔', '🧐😤😠😳🤯', '😓😥😩😖😵', '🌞🤮🤧🤒🎃', '😍😚🤭🥲😄', '😃😂🤣😭😰', '🤬😡😮😯😲', '🤓🤑🤠😇😷', '🥵🥶👺☠️👽', '😸😹😺😻😼', '😽🙀😿😾💀', '❤️🧡💛💚💙', '💜🤎🖤🤍♥️', '💘💝💖💗💓', '💞💕💌💟❣️', '💔💋👅👄👀', '🦾🦠🦷🏵️💐', '🧝🧙🧛🧟🥷', '😪😴🥱🤤🙄', '👿😈🔥⭐🌟', '🎊🎉🕳️💤💦', '🌜👻🤖💢⚡', '✨💫👁️🍂☀️', '🧠🫀🫁🩸🌡️', '👉👌🍺🍷👄', '🦁🐻🐼🐨🐹', '🐭🐷🐸🙉🐶', '🌌🌠🌉🌆🌃', '🕊️🦅🐦🦥🦏', '🐲🦖🐢🦮🐈', '🐐🦬🐖🐑🐆', '🦍🦧🐿️🦦🦈', '🐝🐠🐋🦋🐜', '🍔🍖🍗🌭🥪', '🥞🍳🫓🌮🍕', '🍉🍓🍒🫐🍎', '🧆🥙🥘🍜🦪', '🍧🍱🥟🍚🍢', '🍰🍙🍡🍣🍟', '🧇🥯🌯🥟🥡', '🍭🍩🍪🥮🍨', '🥗🍲🫕🍥🍿', '🥃🍾🍹🍸🍻', '🅿️🅾️🆘ℹ️🖕🏿', '🤏✋👊🙌👇', '👾🕹️🎮🎲🃏', '💵💴💶💷💰', '🇺🇸🇹🇨🇸🇻🇺🇦🇼🇸', '🏤🏣🏨🏥🏩']
+	data.subClient.send_message(data.chatId, message=str(random.choice(lis)))
+
+@client.command("fancytext")
+def fancytext(data):
+	msg = data.message + " null "
+	msg = msg.split(" ")
+	msg[1] = msg[0]
+	data.subClient.send_message(data.chatId, message=fancy.light(msg[1]))
+	data.subClient.send_message(data.chatId, message=fancy.bold(msg[1]))
+	data.subClient.send_message(data.chatId, message=fancy.box(msg[1]))
+	data.subClient.send_message(data.chatId, message=fancy.sorcerer(msg[1]))
+
+
+@client.command("перезагрузка")
+def reboot(data):
+    data.subClient.send_message(data.chatId, "Перезагрузка Бота!")
+    os.execv(sys.executable, ["None", os.path.basename(sys.argv[0])])
+
+@client.command("комментарий")
+def comment_profile(data):
+	data.subClient.comment(message="Роспись от http://aminoapps.com/p/d9w9fi8", userId=data.authorId)
+	data.subClient.send_message(data.chatId, message="Бот оставил вам роспись на стене!")
+
+@client.command("msgtypes")
+def msgtypes(data):
+	data.subClient.send_message(data.chatId, message="""
+[BC]--MESSAGETYPES--
+[C]0 - BASE
+[C]1 - STRIKE
+[C]50 - UNSUPPORTED_MESSAGE
+[C]57 - REJECTED_VOICE_CHAT
+[C]58 - MISSED_VOICE_CHAT
+[C]59 - CANCELED_VOICE_CHAT
+[C]100 - DELETED_MESSAGE
+[C]101 - JOINED_CHAT
+[C]102 - LEFT_CHAT
+[C]103 - STARTED_CHAT
+[C]104 - CHANGED_BACKGROUND
+[C]105 - EDITED_CHAT
+[C]106 - EDITED_CHAT_ICON
+[C]107 - STARTED_VOICE_CHAT
+[C]109 - UNSUPPORTED_MESSAGE
+[C]110 - ENDED_VOICE_CHAT
+[C]113 - EDITED_CHAT_DESCRIPTION
+[C]114 - ENABLED_LIVE_MODE
+[C]115 - DISABLED_LIVE_MODE
+[C]116 - NEW_CHAT_HOST
+[C]124 - INVITE_ONLY_CHANGED
+[C]125 - ENABLED_VIEW_ONLY
+[C]126 - DISABLED_VIEW_ONLY
+""")
+
+@client.command("текст")
+def say_text(data):
+	data.subClient.send_message(data.chatId, message=data.message)
+
+@client.command("профиль")
+def profileinfo(data):
+	repa = data.subClient.get_user_info(data.authorId).reputation
+	lvl = data.subClient.get_user_info(data.authorId).level
+	crttime = data.subClient.get_user_info(data.authorId).createdTime
+	followers = data.subClient.get_user_achievements(data.authorId).numberOfFollowersCount
+	profilchange = data.subClient.get_user_info(data.authorId).modifiedTime
+	commentz = data.subClient.get_user_info(data.authorId).commentsCount
+	posts = data.subClient.get_user_achievements(data.authorId).numberOfPostsCreated
+	followed = data.subClient.get_user_info(data.authorId).followingCount
+	sysrole = data.subClient.get_user_info(data.authorId).role
+	data.subClient.send_message(data.chatId, message=f"""
+[C]Никнейм/Nickname: {data.author}
+[C]Айди-Аккаунта/UserId: {data.authorId}
+[C]Дата Создания Аккаунта/Account created time: {crttime}
+[C]Последний раз профиль изменялся/Last time the profile was changed: {profilchange}
+[C]Количество Репутации/Reputation number: {repa}
+[C]Уровень Аккаунта/Account level: {lvl}
+[C]Количество постов созданных в профиле/Number of posts created in the profile: {posts}
+[C]Количество комментариев на стене профиля/Number of comments on the profile wall: {commentz}
+[C]Количество людей на которых вы подписаны/The number of people you follow: {followed}
+[C]Подписчики аккаунта/Account followers: {followers}
+[C]Номер аккаунта в системе/Account number in system: {sysrole}
+	""")
+
+client.launch()
+################################################commands/команды################################################
+time.sleep(10)
+print("Bot started")
+
+#socket
+def restart():
+    while True:
+        time.sleep(120)
+        count = 0
+        for i in threading.enumerate():
+            if i.name == "restart_thread":
+                count += 1
+        if count <= 1:
+            print("Restart")
+            client.socket.close()
+            client.socket.start()
